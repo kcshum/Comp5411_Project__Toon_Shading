@@ -27,12 +27,12 @@ public class CameraControl : MonoBehaviour
 		//w键前进
 		if (Input.GetKey(KeyCode.W))
 		{
-			this.gameObject.transform.Translate(new Vector3(0, 0, 3f * Time.deltaTime));
+			this.gameObject.transform.Translate(new Vector3(0, 0, 30f * Time.deltaTime));
 		}
 		//s键后退
 		if (Input.GetKey(KeyCode.S))
 		{
-			this.gameObject.transform.Translate(new Vector3(0, 0, -3f * Time.deltaTime));
+			this.gameObject.transform.Translate(new Vector3(0, 0, -30f * Time.deltaTime));
 		}
 		//a键后退
 		if (Input.GetKey(KeyCode.A))
@@ -43,6 +43,25 @@ public class CameraControl : MonoBehaviour
 		if (Input.GetKey(KeyCode.D))
 		{
 			this.gameObject.transform.Translate(new Vector3(0.1f, 0, 0 * Time.deltaTime));
+		}
+		if (Input.GetKey(KeyCode.Z))
+		{
+			this.gameObject.transform.Translate(new Vector3(0, 0.1f, 0 * Time.deltaTime));
+		}
+		if (Input.GetKey(KeyCode.C))
+		{
+			this.gameObject.transform.Translate(new Vector3(0, -0.1f, 0 * Time.deltaTime));
+		}
+
+		if (Input.GetKey(KeyCode.Q))
+		{
+			float rotationY = transform.localEulerAngles.y - 0.1f;
+			transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, rotationY, transform.localEulerAngles.z);
+		}
+		if (Input.GetKey(KeyCode.E))
+		{
+			float rotationY = transform.localEulerAngles.y + 0.1f;
+			transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, rotationY, transform.localEulerAngles.z);
 		}
 	}
 }
