@@ -47,6 +47,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0ca93b28d8c504946904487d0c1d581e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: 0ca93b28d8c504946904487d0c1d581e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 2800000, guid: 7e4a41389ffe24f458e5a1b4b6c554eb, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -63,6 +67,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 23e7576e271633549bcc2c390b351f88, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RampTexture:
+        m_Texture: {fileID: 2800000, guid: 23e7576e271633549bcc2c390b351f88, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -74,13 +82,15 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Outline: 0.54
+    - _Outline: 0.46
     - _Parallax: 0.02
+    - _ShadowLevel: 0.46
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpecularScale: 0.01
     - _SrcBlend: 1
-    - _Tooniness: 4.18
+    - _ToonLevel: 3.75
+    - _Tooniness: 3.74
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
