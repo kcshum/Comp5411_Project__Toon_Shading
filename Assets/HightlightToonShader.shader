@@ -41,14 +41,14 @@
                 v2f vert(a2v v) {
                     v2f o;
 
-                    float4 pos = mul(UNITY_MATRIX_MV, v.vertex);
+                    float4 vertice_pos = mul(UNITY_MATRIX_MV, v.vertex);
                     float3 normal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);  //UNITY_MATRIX_IT_MV: Inverse transpose of model * view matrix.
                     //normal.z = -10; 
                     normal.z = -0.5;                 // minus 0.5, to represent the shadow. This number should be adjusted to aligh with the size of the models.
                     //pull the vertex to build the outline 
-                    pos = pos + float4(normalize(normal), 0) * _Outline;
-                    //o.pos=pos;
-                    o.pos = mul(UNITY_MATRIX_P, pos);    //
+                    vertice_pos = vertice_pos + float4(normalize(normal), 0) * _Outline;
+                    //o.pos=vertice_pos;
+                    o.pos = mul(UNITY_MATRIX_P, vertice_pos);    //
 
                     return o;
                 }
@@ -80,11 +80,10 @@
                 #include "UnityShaderVariables.cginc"
 
                 fixed4 _Color;
-                sampler2D _MainTex;
-                float4 _MainTex_ST;
-                sampler2D _Ramp;
+                sampler2D _MainTex;float4 _MainTex_ST;
+                
+                sampler2D _Ramp;fixed _SpecularScale;
                 fixed4 _Specular;
-                fixed _SpecularScale;
 
                 struct a2v {
                     float4 vertex : POSITION;
@@ -98,7 +97,7 @@
                     float2 uv : TEXCOORD0;
                     float3 worldNormal : TEXCOORD1;
                     float3 worldPos : TEXCOORD2;
-                    SHADOW_COORDS(3)
+                    SHADOW_COORDS(3)   //3
                 };
 
                 v2f vert(a2v v) {
@@ -125,23 +124,27 @@
                     fixed3 albedo = c.rgb * _Color.rgb;
 
                     fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
-
+                    //compute light with attenuation-> Unity built in function
                     UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);
 
                     fixed diff = dot(worldNormal, worldLightDir);
+                    
+                    //normalize the diff light
                     diff = (diff * 0.5 + 0.5) * atten;
 
-                    fixed3 diffuse = _LightColor0.rgb * albedo * tex2D(_Ramp, float2(diff, diff)).rgb;
+                    fixed3 diffuse_light = _LightColor0.rgb * albedo * tex2D(_Ramp, float2(diff, diff)).rgb;
 
 
                     //Specular light
                     fixed spec = dot(worldNormal, worldHalfDir);
                     fixed ww = fwidth(spec) * 2.0;
                     //if(_SpecularScale>0.0001){
-                    //fixed3 specular = _Specular.rgb * lerp(0, 1, smoothstep(-ww, ww, spec + _SpecularScale - 1)) }
-                    fixed3 specular = _Specular.rgb * lerp(0, 1, smoothstep(-ww, ww, spec + _SpecularScale - 1)) * step(0.0001, _SpecularScale);
+                    //fixed3 specular = _Specular.rgb * lerp(0, 1, smoothstep(-ww, ww, spec + _SpecularScale - 1)) 
+                    //}
+                    
+                    fixed3 specular_light = _Specular.rgb * lerp(0, 1, smoothstep(-ww, ww, spec + _SpecularScale - 1)) * step(0.0001, _SpecularScale);
 
-                    return fixed4(ambient + diffuse + specular, 1.0);
+                    return fixed4(ambient + diffuse_light + specular_light, 1.0);
                 }
 
                 ENDCG
